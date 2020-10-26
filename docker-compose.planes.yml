@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  plane:
+    environment:
+      - SITL_EXE=arduplane
+      - SITL_OPTS=--model=plane --defaults=/home/pilot/ardupilot/Tools/autotest/default_params/plane.parm
+    build: .
