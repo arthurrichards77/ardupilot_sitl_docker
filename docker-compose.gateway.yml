@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  copter:
+    environment:
+      - MAVLINK_OUT=udp:mavgw:14553
+    build: .
+  mavgw:
+    build: .
+    container_name: mavgw
+    command: mavproxy.py --non-interactive --master=udp:0.0.0.0:14553 --out=tcpin:0.0.0.0:5760
+    ports:
+      - "5760:5760"
