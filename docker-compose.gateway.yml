@@ -7,6 +7,6 @@ services:
   mavgw:
     build: .
     container_name: mavgw
-    command: mavproxy.py --non-interactive --master=udp:0.0.0.0:14553 --out=tcpin:0.0.0.0:5760
+    command: mavproxy.py --non-interactive --source-system=254 --target-system=1 --master=udp:0.0.0.0:14553 --out=tcpin:0.0.0.0:5760
     ports:
       - "5760:5760"
