@@ -1,9 +1,10 @@
 #!/bin/bash
 
+ip a
 if [ -z "$SYSID" ]
 then
   echo "LAUNCH.SH: taking SYSID from IP address"
-  SYSID=$(ip a | grep -o -m 1 172.[0123456789]*.0.[0123456789]* | grep -o [0123456789]*$)
+  SYSID=$(ip a | grep -o -m 1 172.[0123456789]*.0.[0123456789]* | grep -o -m 1 [0123456789]*$)
 fi
 echo "LAUNCH.SH: System ID will be $SYSID"
 
