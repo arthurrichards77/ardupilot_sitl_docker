@@ -8,7 +8,7 @@ By default, the container launches a copter SITL instance plus an accompanying M
 
 ```docker run arthurrichards77/ardupilot-sitl-docker:latest```
 
-Then connect your multi-UAV-capable ground station to udp:localhost:14553 and you should get the data.  Repeat the ```docker run``` command and you should see more copters appear on your GCS.  I've tested using [QGroundControl](http://qgroundcontrol.com/).
+Then connect your multi-UAV-capable ground station as a listener to udp:localhost:14553 and you should get the data.  Repeat the ```docker run``` command and you should see more copters appear on your GCS.  I've tested using [QGroundControl](http://qgroundcontrol.com/).
 
 ## Plane Simulation
 
@@ -32,7 +32,45 @@ A final ```docker-compose.mix.yml``` covers both at the same time.
 
 | QGroundControl will struggle with this, as it appears to assume all UAVs are of the same type.  For example, you'll only get Copter modes in the drop-down.
 
-| An experimental ```docker-compose.gateway.yml``` provides an additional MAVProxy service to route all MAVLINK to a common TCP server connection.  I thought this would be an easier way to connect than intercepting UDP streams, especially for ambitions to run this in the cloud.  However, it has extreme latency problems, to the point of beng unusable.
+```docker-compose.gateway.udp.yml``` provides an additional MAVProxy service to route all MAVLINK to a common UDP port, 14554, which is exposed to the outside world from Docker.  Connect your GCS as a UDP client to this port.
+
+| An experimental ```docker-compose.gateway.yml``` provides an additional MAVProxy service to route all MAVLINK to a TCP server.  I thought this would be an easier way to connect than intercepting UDP streams, especially for ambitions to run this in the cloud.  However, it has extreme latency problems, to the point of beng unusable.
+| Also ```docker-compose.gateway.pull.yml``` pulls the image from Docker hub instead of building it locally.
+
+## Examples
+
+Different GCS software appears to have different quirks regarding types of network connections.  These are the combinations I've got working.
+
+### Mission Planner on Windows
+
+Installation instructions for Docker on Windows can be found [here](https://docs.docker.com/docker-for-windows/install/).  It's a little fiddly to get the Hyper-V stuff right and will demand a restart.
+
+Use the UDP gateway stack and launch via ```docker-compose -f docker-compose.gateway.udp.yml up --scale copter=3```.  Open the Docker Desktop and the Containers/Apps screen should show as below, if you click on the expanding arrow next to ardupilot-sitl-docker.  You can explore the resources and output of each element by clicking on its name.
+
+![Docker screenshot](docker_win_screen.png)
+
+Then fire up Mission Planner, select UDPCl (UDP client) as the connection type at top right, and hit connect.  Enter 127.0.0.1 as host and 14554 as port number.  It is rather slow to get going as downloading three sets of params takes on the order of a minute.  You should see three copters as below.
+
+![Mission planner startup screenshot](mission_planner_start.png)
+
+You can fly the drones around by hand, using Guided mode.  Use the drop-down box at the top right to choose which drone you're talking to.  It's rather slow - be prepared to have to repeat commands.
+
+| TODO: investigate reducing data rate and using alternative MAVLINK gateways such as [mavp2p](https://github.com/aler9/mavp2p) or [MAVLink router](https://github.com/intel/mavlink-router).
+
+
+### QGroundControl on Linux
+
+I was using Ubuntu 18.04 and the latest QGC as of November 2020.
+
+Use the default stack without the gateway: ```docker-compose up --scale copter=9```
+
+The launch QGC and add a connection on UDP listening to port 14553.  You should see nine drones in different places.  Select "Multi-UAV" in QGC using the radio button at top right and you should see nine little info screens.  You can choose which drone to control using the drop-down at top centre.
+
+| The combination of Linux and QGC seems to allow the UDP stream to be picked up outside Docker.  I couldn't reproduce this on Windows or Mission Planner so it should be regarded as brittle.
+
+| TODO: screenshots for Linux
+
+###
 
 ## Environment Variable Reference
 

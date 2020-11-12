@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  copter:
+    environment:
+      - MAVLINK_OUT=udp:mavgw:14553
+    image: arthurrichards77/ardupilot-sitl-docker
+  mavgw:
+    image: arthurrichards77/ardupilot-sitl-docker
+    container_name: mavgw
+    command: mavproxy.py --non-interactive --source-system=254 --target-system=1 --master=udp:0.0.0.0:14553 --out=udpin:0.0.0.0:14554
+    ports:
+      - "14554:14554/udp"
