@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  copter:
+    environment:
+      - MAVLINK_OUT=udp:mavgw3:14553
+    image: arthurrichards77/ardupilot-sitl-docker
+    deploy:
+      mode: replicated
+      replicas: 3
+  mavgw:
+    image: arthurrichards77/mavrouter
+    container_name: mavgw3
+    command: mavlink-routerd 0.0.0.0:14553
+    ports:
+      - "5760:5760"
