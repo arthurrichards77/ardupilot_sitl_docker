@@ -37,5 +37,5 @@ then
 fi
 echo "LAUNCH.SH: Will send MAVLINK to $MAVLINK_OUT"
 
-echo "LAUNCH.SH: mavproxy.py --non-interactive --target-system=$SYSID --master=tcp:0.0.0.0:5760 --out=$MAVLINK_OUT"
-mavproxy.py --non-interactive --target-system=$SYSID --master=tcp:0.0.0.0:5760 --out=$MAVLINK_OUT
+echo "LAUNCH.SH: mavlink-routerd -e $MAVLINK_OUT tcp:0.0.0.0:5760"
+mavlink-routerd -e $MAVLINK_OUT tcp:0.0.0.0:5760

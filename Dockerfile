@@ -52,4 +52,4 @@ COPY app app
 
 WORKDIR /home/pilot/app
 
-#CMD ./launch.sh
+CMD ./launch.sh
