@@ -2,13 +2,7 @@ FROM ubuntu:18.04
 
 RUN apt-get update -y
 
-RUN apt-get install -y git python
-RUN apt-get install -y g++
-RUN apt-get install -y ccache gawk make wget cmake
-RUN apt-get install -y python-pip
-RUN apt-get install -y iproute2
-
-RUN pip install future lxml pymavlink MAVProxy pexpect
+RUN apt-get install -y git python g++ ccache gawk make wget cmake python-pip iproute2 python-future python3-future libtool autoconf
 
 RUN useradd --create-home pilot
 
@@ -18,7 +12,7 @@ WORKDIR /home/pilot
 
 RUN git clone --recursive --depth 1 https://github.com/ArduPilot/ardupilot.git
 
-WORKDIR ardupilot
+WORKDIR /home/pilot/ardupilot
 
 RUN ./waf configure
 
@@ -28,10 +22,34 @@ RUN ./waf plane
 
 WORKDIR /home/pilot
 
+RUN git clone https://github.com/mavlink-router/mavlink-router.git
+
+WORKDIR /home/pilot/mavlink-router
+
+RUN git submodule update --init --recursive
+
+USER root
+
+RUN apt-get install -y pkg-config
+
+USER pilot
+
+RUN ./autogen.sh && ./configure CFLAGS='-g -O2' --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib64 --prefix=/usr --disable-systemd
+
+RUN make
+
+USER root
+
+RUN make install
+
+USER pilot
+
+WORKDIR /home/pilot
+
 RUN mkdir app
 
 COPY app app
 
-WORKDIR app
+WORKDIR /home/pilot/app
 
-CMD ./launch.sh
+#CMD ./launch.sh
