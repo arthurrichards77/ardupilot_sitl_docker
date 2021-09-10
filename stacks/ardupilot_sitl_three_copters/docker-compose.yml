@@ -2,8 +2,13 @@ version: "3.8"
 services:
   copter:
     environment:
+<<<<<<< HEAD
       - MAVLINK_OUT=udp:mavgw3:14553
     image: arthurrichards77/ardupilot-sitl-docker:v2
+=======
+      - MAVLINK_HOSTNAME=mavgw3
+    image: arthurrichards77/ardupilot-sitl-docker:v3
+>>>>>>> new_local_router
     deploy:
       mode: replicated
       replicas: 3
