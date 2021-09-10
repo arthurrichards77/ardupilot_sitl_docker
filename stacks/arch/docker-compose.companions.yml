@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  copter:
+    build: .
+  companion:
+    build: .
+    command: env && hostname && cat /etc/hosts
