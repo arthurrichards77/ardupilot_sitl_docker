@@ -3,9 +3,9 @@ services:
   copter:
     environment:
       - MAVLINK_OUT=udp:mavgw:14553
-    image: arthurrichards77/ardupilot-sitl-docker
+    image: arthurrichards77/ardupilot-sitl-docker:v2
   mavgw:
-    image: arthurrichards77/mavrouter
+    image: arthurrichards77/mavrouter:v1
     container_name: mavgw
     command: mavlink-routerd 0.0.0.0:14553
     ports:
