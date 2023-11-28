@@ -3,7 +3,7 @@ services:
   copter:
     environment:
       - MAVLINK_HOSTNAME=mavgw3
-    image: arthurrichards77/ardupilot-sitl-docker:v3
+    image: arthurrichards77/ardupilot-sitl-docker:v4
     deploy:
       mode: replicated
       replicas: 3
@@ -13,3 +13,5 @@ services:
     command: mavlink-routerd 0.0.0.0:14553
     ports:
       - "5760:5760"
+  redis:
+    image: redis:alpine

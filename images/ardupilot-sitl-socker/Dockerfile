@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 RUN apt-get update -y
 
-RUN apt-get install -y git python g++ ccache gawk make wget cmake python-pip iproute2 python-future python3-future libtool autoconf pkg-config
+RUN apt-get install -y git python g++ ccache gawk make wget cmake python-pip iproute2 python-future python3-future libtool autoconf meson ninja-build pkg-config gcc g++ systemd redis
 
 RUN useradd --create-home pilot
 
@@ -18,15 +18,15 @@ WORKDIR /home/pilot/mavlink-router
 
 RUN git submodule update --init --recursive
 
-RUN ./autogen.sh && ./configure CFLAGS='-g -O2' --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib64 --prefix=/usr --disable-systemd
+RUN meson setup build .
 
-RUN make
+RUN ninja -C build
 
 USER root
 
 RUN make install
 
-USER pilot
+USER ninja -C build install
 
 WORKDIR /home/pilot
 
