@@ -1,1 +1,3 @@
 .vscode
+stacks/n_copters/app/gw_launch_*
+stacks/n_copters/docker-compose-*
