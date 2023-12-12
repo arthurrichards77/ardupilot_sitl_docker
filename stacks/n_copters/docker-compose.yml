@@ -1,0 +1,35 @@
+services:
+  copter_1:
+    command: /home/pilot/ardupilot/build/sitl/bin/arducopter -w --model=quad --home=51.501592,-2.551791,0,180
+      --defaults /home/pilot/ardupilot/Tools/autotest/default_params/copter.parm --sysid=1
+    image: arthurrichards77/ardupilot-sitl-docker:v3
+  copter_2:
+    command: /home/pilot/ardupilot/build/sitl/bin/arducopter -w --model=quad --home=51.501592,-2.551791,0,180
+      --defaults /home/pilot/ardupilot/Tools/autotest/default_params/copter.parm --sysid=2
+    image: arthurrichards77/ardupilot-sitl-docker:v3
+  copter_3:
+    command: /home/pilot/ardupilot/build/sitl/bin/arducopter -w --model=quad --home=51.501592,-2.551791,0,180
+      --defaults /home/pilot/ardupilot/Tools/autotest/default_params/copter.parm --sysid=3
+    image: arthurrichards77/ardupilot-sitl-docker:v3
+  copter_4:
+    command: /home/pilot/ardupilot/build/sitl/bin/arducopter -w --model=quad --home=51.501592,-2.551791,0,180
+      --defaults /home/pilot/ardupilot/Tools/autotest/default_params/copter.parm --sysid=4
+    image: arthurrichards77/ardupilot-sitl-docker:v3
+  copter_5:
+    command: /home/pilot/ardupilot/build/sitl/bin/arducopter -w --model=quad --home=51.501592,-2.551791,0,180
+      --defaults /home/pilot/ardupilot/Tools/autotest/default_params/copter.parm --sysid=5
+    image: arthurrichards77/ardupilot-sitl-docker:v3
+  mavgw:
+    command: /app/gw_launch.sh
+    depends_on:
+    - copter_1
+    - copter_2
+    - copter_3
+    - copter_4
+    - copter_5
+    image: arthurrichards77/mavrouter:v1
+    ports:
+    - 5760:5760
+    volumes:
+    - ./app:/app
+version: '3.8'
