@@ -1,2 +1,2 @@
 #!/bin/bash
-mavlink-routerd -p $(getent ahostsv4 copter_1 | head -1 | awk '{print $1}'):5760 -p $(getent ahostsv4 copter_2 | head -1 | awk '{print $1}'):5760 -p $(getent ahostsv4 copter_3 | head -1 | awk '{print $1}'):5760
+mavlink-routerd -p $(/app/get_host_ip.sh copter_1):5760 -p $(/app/get_host_ip.sh copter_2):5760 -p $(/app/get_host_ip.sh copter_3):5760
