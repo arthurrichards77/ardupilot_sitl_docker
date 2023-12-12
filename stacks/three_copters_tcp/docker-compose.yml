@@ -2,10 +2,13 @@ version: "3.8"
 services:
   copter_1:
     image: arthurrichards77/ardupilot-sitl-docker:v3
-    command: /home/pilot/ardupilot/build/sitl/bin/arducopter --model=quad --sysid=1 --home=51.501582,-2.551791,0,090
+    command: /home/pilot/ardupilot/build/sitl/bin/arducopter -w --model=quad --sysid=1 --home=51.501582,-2.551791,0,090 --defaults /home/pilot/ardupilot/Tools/autotest/default_params/copter.parm
   copter_2:
     image: arthurrichards77/ardupilot-sitl-docker:v3
-    command: /home/pilot/ardupilot/build/sitl/bin/arducopter --model=quad --sysid=2 --home=51.501592,-2.551791,0,090
+    command: /home/pilot/ardupilot/build/sitl/bin/arducopter -w --model=quad --sysid=2 --home=51.501592,-2.551791,0,180 --defaults /home/pilot/ardupilot/Tools/autotest/default_params/copter.parm
+  copter_3:
+    image: arthurrichards77/ardupilot-sitl-docker:v3
+    command: /home/pilot/ardupilot/build/sitl/bin/arducopter -w --model=quad --sysid=3 --home=51.501592,-2.551891,0,270 --defaults /home/pilot/ardupilot/Tools/autotest/default_params/copter.parm
   mavgw:
     image: arthurrichards77/mavrouter:v1
     volumes:
@@ -13,6 +16,7 @@ services:
     depends_on:
       - copter_1
       - copter_2
+      - copter_3
     command: /app/gw_launch.sh
     ports:
       - "5760:5760"
