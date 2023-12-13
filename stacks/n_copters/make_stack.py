@@ -35,3 +35,5 @@ with open(f'app/gw_launch_{num_copters}.sh', 'w', newline="\n") as file:
 
 print('To run type:')
 print(f'docker-compose -f docker-compose-{num_copters}.yml up')
+print('or:')
+print(f'docker stack deploy --compose-file docker-compose-{num_copters}.yml copters_{num_copters}')
