@@ -8,11 +8,11 @@ services:
       --defaults /ardupilot/Tools/autotest/default_params/copter.parm --sysid=2
     image: murphy360/ardupilot-sitl-copter
   mavgw:
-    command: /app/gw_launch.sh
+    entrypoint: /app/gw_launch.sh
     depends_on:
     - copter_1
     - copter_2
-    image: arthurrichards77/mavrouter:v1
+    image: mickeyli789/mavlink-router
     ports:
     - 5760:5760
     volumes:
