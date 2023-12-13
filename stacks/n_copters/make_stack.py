@@ -24,12 +24,12 @@ for i in range(num_copters):
     compose_dict['services'][f'copter_{i+1}'] = {"image": "murphy360/ardupilot-sitl-copter",
                                                  "entrypoint": f"/ardupilot/build/sitl/bin/arducopter -w --model=quad --home={lat},{lon},0,{hdg} --defaults /ardupilot/Tools/autotest/default_params/copter.parm --sysid={i+1}"}
 
-with open(f'docker-compose-{num_copters}.yml', 'w') as file:
+with open(f'docker-compose-{num_copters}.yml', 'w', encoding='utf8') as file:
     yaml.dump(compose_dict, file)
 
-router_cmds = ['/mavlink-router/mavlink-routerd -c NULL'] + [f"-p $(/app/get_host_ip.sh copter_{i+1}):5760" for i in range(num_copters)]                                    
+router_cmds = ['/mavlink-router/mavlink-routerd -c NULL'] + [f"-p $(/app/get_host_ip.sh copter_{i+1}):5760" for i in range(num_copters)]
 
-with open(f'app/gw_launch_{num_copters}.sh', 'w', newline="\n") as file:
+with open(f'app/gw_launch_{num_copters}.sh', 'w', newline="\n", encoding='utf8') as file:
     file.write("#!/bin/sh\n")
     file.write(' '.join(router_cmds))
 
