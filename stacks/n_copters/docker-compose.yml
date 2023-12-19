@@ -8,7 +8,7 @@ services:
       --defaults /ardupilot/Tools/autotest/default_params/copter.parm --sysid=2
     image: murphy360/ardupilot-sitl-copter
   mavgw:
-    entrypoint: /app/gw_launch.sh
+    entrypoint: sh /app/gw_launch.sh
     depends_on:
     - copter_1
     - copter_2
