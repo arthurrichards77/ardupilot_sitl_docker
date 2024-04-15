@@ -1,0 +1,25 @@
+services:
+  copter_1:
+    entrypoint: /ardupilot/build/sitl/bin/arducopter -w --model=quad --home=51.501592,-2.551791,0,180
+      --defaults /ardupilot/Tools/autotest/default_params/copter.parm --sysid=1
+    image: murphy360/ardupilot-sitl-copter
+  copter_2:
+    entrypoint: /ardupilot/build/sitl/bin/arducopter -w --model=quad --home=51.501592,-2.551791,0,180
+      --defaults /ardupilot/Tools/autotest/default_params/copter.parm --sysid=2
+    image: murphy360/ardupilot-sitl-copter
+  quadplane_3:
+    entrypoint: /ardupilot/build/sitl/bin/arduplane -w --model=quadplane --home=51.501592,-2.551791,0,180
+      --defaults /ardupilot/Tools/autotest/default_params/quadplane.parm --sysid=3
+    image: murphy360/ardupilot-sitl-copter
+  mavgw:
+    entrypoint: sh /app/gw_launch.sh
+    depends_on:
+    - copter_1
+    - copter_2
+    - quadplane_3
+    image: mickeyli789/mavlink-router
+    ports:
+    - 5760:5760
+    volumes:
+    - ./app:/app
+version: '3.8'
