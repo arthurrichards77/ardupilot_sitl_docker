@@ -1,16 +1,19 @@
 services:
   copter_1:
-    entrypoint: /ardupilot/build/sitl/bin/arducopter -w --model=quad --home=51.501592,-2.551791,0,180
-      --defaults /ardupilot/Tools/autotest/default_params/copter.parm --sysid=1
+    entrypoint: sh /app/copter_1.sh
     image: murphy360/ardupilot-sitl-copter
+    volumes:
+    - ./app:/app
   copter_2:
-    entrypoint: /ardupilot/build/sitl/bin/arducopter -w --model=quad --home=51.501592,-2.551791,0,180
-      --defaults /ardupilot/Tools/autotest/default_params/copter.parm --sysid=2
+    entrypoint: sh /app/copter_2.sh
     image: murphy360/ardupilot-sitl-copter
+    volumes:
+    - ./app:/app
   quadplane_3:
-    entrypoint: /ardupilot/build/sitl/bin/arduplane -w --model=quadplane --home=51.501592,-2.551791,0,180
-      --defaults /ardupilot/Tools/autotest/default_params/quadplane.parm --sysid=3
+    entrypoint: sh /app/quadplane_3.sh
     image: murphy360/ardupilot-sitl-copter
+    volumes:
+    - ./app:/app
   mavgw:
     entrypoint: sh /app/gw_launch.sh
     depends_on:
