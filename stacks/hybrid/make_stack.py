@@ -32,7 +32,7 @@ for i in range(num_copters):
         file.write("#!/bin/sh\n")
         file.write(f"mkdir -p /app/copter_{i+1}\n")
         file.write(f"cd /app/copter_{i+1}\n")
-        file.write(f"/ardupilot/build/sitl/bin/arducopter -w --model=quad --home={lat},{lon},0,{hdg} --defaults /ardupilot/Tools/autotest/default_params/copter.parm --sysid={i+1}\n")
+        file.write(f"/ardupilot/build/sitl/bin/arducopter -w --model=quad --home={lat},{lon},0,{hdg} --defaults /app/copter.parm --sysid={i+1}\n")
 
 
 # last one is the quadplane
@@ -47,7 +47,7 @@ with open(f'app/quadplane_{i+1}.sh', 'w', newline="\n", encoding='utf8') as file
     file.write("#!/bin/sh\n")
     file.write(f"mkdir -p /app/quadplane_{i+1}\n")
     file.write(f"cd /app/quadplane_{i+1}\n")
-    file.write(f"/ardupilot/build/sitl/bin/arduplane -w --model=quadplane --home={lat},{lon},0,{hdg} --defaults /ardupilot/Tools/autotest/default_params/quadplane.parm --sysid={i+1}\n")
+    file.write(f"/ardupilot/build/sitl/bin/arduplane -w --model=quadplane --home={lat},{lon},0,{hdg} --defaults /app/quadplane.parm --sysid={i+1}\n")
 
 
 with open(f'docker-compose-{num_copters}.yml', 'w', encoding='utf8') as file:
